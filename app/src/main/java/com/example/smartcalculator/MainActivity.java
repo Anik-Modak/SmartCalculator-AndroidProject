@@ -11,8 +11,8 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     TextView txt1, txt2,txt3;
-    Button btn0,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btndot,btnadd,btnsub,btndiv,btnmul,btnequal,btnclear;
-    boolean add, sub,mul,div;
+    Button btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btndot, btnadd, btnsub, btndiv, btnmul, btnequal, btnclear, btnmod, btnroot, btnpow;
+    boolean add, sub, mul, div, mod, pow, root;
     Double var1,var2;
     ImageButton buttondelete;
 
@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
 
         txt1=(TextView) findViewById(R.id.input);
         txt2=(TextView)findViewById(R.id.result);
-        //txt3=(TextView)findViewById(R.id.input);
         btn0=(Button) findViewById(R.id.button0);
         btn1=(Button)findViewById(R.id.button1);
         btn2=(Button)findViewById(R.id.button2);
@@ -39,7 +38,10 @@ public class MainActivity extends AppCompatActivity {
         btnadd=(Button)findViewById(R.id.buttonadd);
         btnsub=(Button)findViewById(R.id.buttonsub);
         btndiv=(Button)findViewById(R.id.buttondiv);
+        btnmod=(Button)findViewById(R.id.buttonmod);
         btnmul=(Button)findViewById(R.id.buttonmul);
+        btnroot=(Button)findViewById(R.id.buttonroot);
+        btnpow=(Button)findViewById(R.id.buttonpower);
         btnequal=(Button)findViewById(R.id.buttonequal);
         btnclear=(Button)findViewById(R.id.buttonclear);
         buttondelete=(ImageButton) findViewById(R.id.buttonimage);
@@ -170,6 +172,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnmod.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(txt2.getText()=="")
+                    var1 = Double.parseDouble(txt1.getText()+"");
+                else
+                    var1 = Double.parseDouble(txt2.getText()+"");
+                mod = true;
+                txt1.setText(null);
+            }
+        });
+
+        btnroot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                root = true;
+                txt1.setText(null);
+            }
+        });
+
+        btnpow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(txt2.getText()=="")
+                    var1 = Double.parseDouble(txt1.getText()+"");
+                else
+                    var1 = Double.parseDouble(txt2.getText()+"");
+                pow = true;
+                txt1.setText(null);
+            }
+        });
+
         btnequal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -197,7 +231,25 @@ public class MainActivity extends AppCompatActivity {
                 else if(div==true){
                     txt1.setText(var1.toString() +"/" + var2.toString());
                     txt2.setText(var1/var2+"");
-                    div=false;
+                    div = false;
+                }
+
+                else if(mod==true){
+                    txt1.setText(var1.toString() +"%" + var2.toString());
+                    txt2.setText(var1%var2+"");
+                    mod = false;
+                }
+
+                else if(root==true){
+                    txt1.setText("√" + var2.toString());
+                    txt2.setText(Math.sqrt(var2)+"");
+                    root = false;
+                }
+
+                else if(pow==true){
+                    txt1.setText(var1.toString() +"^" + var2.toString());
+                    txt2.setText(Math.pow(var1, var2)+"");
+                    pow = false;
                 }
             }
         });
