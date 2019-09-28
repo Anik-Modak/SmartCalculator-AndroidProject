@@ -10,18 +10,20 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final Controller obj = new Controller();
+
     TextView txt1, txt2,txt3;
     Button btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btndot, btnadd, btnsub, btndiv, btnmul, btnequal, btnclear, btnmod, btnroot, btnpow;
-    boolean add, sub, mul, div, mod, pow, root;
+    boolean add, sub, mul, div, mod, pow, root, dot = false;
     Double var1,var2;
     ImageButton buttondelete;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        add = sub = mul = div = mod = pow = root = dot = false;
         txt1=(TextView) findViewById(R.id.input);
         txt2=(TextView)findViewById(R.id.result);
         btn0=(Button) findViewById(R.id.button0);
@@ -119,13 +121,17 @@ public class MainActivity extends AppCompatActivity {
         btndot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                txt1.setText(txt1.getText()+".");
+                if(dot == false) {
+                    txt1.setText(txt1.getText() + ".");
+                    dot = true;
+                }
             }
         });
 
         btnadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if(txt2.getText()=="")
                     var1 = Double.parseDouble(txt1.getText()+"");
                 else
@@ -133,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
                 add = true;
                 txt1.setText(null);
             }
+
         });
 
         btnsub.setOnClickListener(new View.OnClickListener() {
@@ -144,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
                     var1 = Double.parseDouble(txt2.getText()+"");
                 sub = true;
                 txt1.setText(null);
+                dot = false;
             }
         });
 
@@ -156,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
                     var1 = Double.parseDouble(txt2.getText()+"");
                 mul = true;
                 txt1.setText(null);
-
+                dot = false;
             }
         });
 
@@ -169,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
                     var1 = Double.parseDouble(txt2.getText()+"");
                 div = true;
                 txt1.setText(null);
+                dot = false;
             }
         });
 
@@ -181,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
                     var1 = Double.parseDouble(txt2.getText()+"");
                 mod = true;
                 txt1.setText(null);
+                dot = false;
             }
         });
 
@@ -189,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 root = true;
                 txt1.setText(null);
+                dot = false;
             }
         });
 
@@ -201,6 +212,7 @@ public class MainActivity extends AppCompatActivity {
                     var1 = Double.parseDouble(txt2.getText()+"");
                 pow = true;
                 txt1.setText(null);
+                dot = false;
             }
         });
 
@@ -208,49 +220,61 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 var2=Double.parseDouble(txt1.getText()+"");
-
+                double ans;
                 if(add==true){
                     txt1.setText(var1.toString() +"+" + var2.toString());
-                    txt2.setText(var1+var2+"");
+                    ans = obj.calculation(var1, var2, '+');
+                    txt2.setText(ans+"");
                     add=false;
                 }
 
                 else if(sub==true){
                     txt1.setText(var1.toString() +"-" + var2.toString());
-                    txt2.setText(var1-var2+"");
+                    ans = obj.calculation(var1, var2, '-');
+                    txt2.setText(ans+"");
                     sub=false;
                 }
 
                 else if(mul==true){
                     txt1.setText(var1.toString() +"X" + var2.toString());
-                    txt2.setText(var1*var2+"");
+                    ans = obj.calculation(var1, var2, '*');
+                    txt2.setText(ans+"");
                     mul=false;
 
                 }
 
                 else if(div==true){
                     txt1.setText(var1.toString() +"/" + var2.toString());
-                    txt2.setText(var1/var2+"");
+                    if(var2==0)
+                        txt2.setText("Can not Divided By Zero");
+                    else {
+                        ans = obj.calculation(var1, var2, '/');
+                        txt2.setText(ans + "");
+                    }
                     div = false;
                 }
 
                 else if(mod==true){
                     txt1.setText(var1.toString() +"%" + var2.toString());
-                    txt2.setText(var1%var2+"");
+                    ans = obj.calculation(var1, var2, '%');
+                    txt2.setText(ans+"");
                     mod = false;
                 }
 
                 else if(root==true){
                     txt1.setText("√" + var2.toString());
-                    txt2.setText(Math.sqrt(var2)+"");
+                    ans = Math.sqrt(var2);
+                    txt2.setText(ans+"");
                     root = false;
                 }
 
                 else if(pow==true){
                     txt1.setText(var1.toString() +"^" + var2.toString());
-                    txt2.setText(Math.pow(var1, var2)+"");
+                    ans = Math.pow(var1, var2);
+                    txt2.setText(ans+"");
                     pow = false;
                 }
+                dot = false;
             }
         });
 
